@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="javelin-sdk-android-Dev-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.javelin-dev/javelin-sdk-android/Dev-SNAPSHOT/c04e7b25715088de163ea087dba5e93f9ac712f0/javelin-sdk-android-Dev-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.javelin-dev/javelin-sdk-android/Dev-SNAPSHOT/100e1f4f419ceb6c6268ce4516b99639086f47af/javelin-sdk-android-Dev-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

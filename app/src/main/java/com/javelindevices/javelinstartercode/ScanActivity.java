@@ -1,5 +1,7 @@
 package com.javelindevices.javelinstartercode;
 
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanSettings;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,18 +35,19 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ScanActivity extends AppCompatActivity {
 
-    private final String TAG = "ScanActivity";
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
+    List<ScanFilter> filters = new ArrayList<ScanFilter>();
+    private ScanSettings scanSettings;
 
     private static final int REQUEST_ENABLE_BT = 1;
     // Stops scanning after 5 seconds.
-    private static final long SCAN_PERIOD = 5000;
+    private static final long SCAN_PERIOD = 10000;
     private Context context;
     // Stores connection strength of each BLE device
     private HashMap<BluetoothDevice, Integer> rssiMap = new HashMap<BluetoothDevice, Integer>();
@@ -61,10 +64,12 @@ public class ScanActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_connecting);
-
         setContentView(R.layout.activity_scan);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        ListView listView = (ListView) findViewById(R.id.listView);
 
         mHandler = new Handler();
         context = this.getApplicationContext();
@@ -166,6 +171,13 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     private void scanLeDevice(final boolean enable) {
+
+        //Select BLE Scan_Mode
+
+        ScanSettings.Builder scanSettingsBuilder = new ScanSettings.Builder();
+        scanSettingsBuilder.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
+        scanSettings = scanSettingsBuilder.build();
+
         if (enable) {
             // Stops scanning after a pre-defined scan period.
             mHandler.postDelayed(new Runnable() {
@@ -178,7 +190,7 @@ public class ScanActivity extends AppCompatActivity {
             mScanning = true;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 scanner = mBluetoothAdapter.getBluetoothLeScanner();
-                scanner.startScan(newCallback);
+                scanner.startScan(filters,scanSettings,newCallback);
             } else {
                 mBluetoothAdapter.startLeScan(mLeScanCallback);
             }
@@ -206,7 +218,6 @@ public class ScanActivity extends AppCompatActivity {
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     mLeDeviceListAdapter.addDevice(device);
                     mLeDeviceListAdapter.notifyDataSetChanged();
-                    Log.d("scan","stopped adapter and added device");
                 }
             }
         });
@@ -230,9 +241,11 @@ public class ScanActivity extends AppCompatActivity {
             menu.findItem(R.id.menu_stop).setVisible(false);
             menu.findItem(R.id.menu_scan).setVisible(true);
             menu.findItem(R.id.menu_refresh).setActionView(null);
+            menu.findItem(R.id.menu_refresh).setVisible(false);
         } else {
             menu.findItem(R.id.menu_stop).setVisible(true);
             menu.findItem(R.id.menu_scan).setVisible(false);
+            menu.findItem(R.id.menu_refresh).setVisible(true);
             menu.findItem(R.id.menu_refresh).setActionView(
                     R.layout.actionbar_indeterminate_progress);
         }
@@ -253,6 +266,7 @@ public class ScanActivity extends AppCompatActivity {
         }
         return true;
     }
+
 
     // Adapter for holding devices found through scanning.
     private class LeDeviceListAdapter extends BaseAdapter {
@@ -328,9 +342,11 @@ public class ScanActivity extends AppCompatActivity {
         TextView deviceAddress;
         TextView deviceRssi;
     }
+}
+/*
+public class ScanActivity extends AppCompatActivity {
 
-
-/*    @Override
+  /*  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
@@ -367,5 +383,6 @@ public class ScanActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }
+*/
