@@ -12,7 +12,7 @@ import com.javelindevices.javelinsdk.model.JavelinSensorEvent;
 
 public class MainActivity extends AppCompatActivity implements ISensorManager.JavelinEventListener {
 
-    private final String TAG = "JavelinRuler";
+    private final String TAG = "JavelinStarterCode";
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     public static String mDeviceAddress;
