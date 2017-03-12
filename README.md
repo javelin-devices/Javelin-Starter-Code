@@ -9,4 +9,5 @@ Boiler plate code to get your app up and running with Javelin. This code will ta
 4. Right click on the com.javelindevices.javelinstartercode located under app->java and click refractor and then rename. 
 5. Select Rename Package, enter the new name and click refractor. If a warning pops up, select rename all. 
 6. Open the build.grade (Module: app) under Gradle Scripts and rename the applicationId to your new package name and sync Gradle. 
+
 Note: You can rename the title bar by going to strings under res->values and changing the app_name. 
